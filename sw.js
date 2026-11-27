@@ -1,1 +1,21 @@
-const C='volleyball-v11.0.4-audit.1';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['./','./index.html'])).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('volleyball-')&&k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{if(e.request.mode==='navigate')e.respondWith(fetch(e.request).then(r=>{if(r.ok){let copy=r.clone();e.waitUntil(caches.open(C).then(c=>c.put('./index.html',copy)))}return r}).catch(()=>caches.match('./index.html')))});
+const version = 'volleyball-v11.0.5';
+const resolve = path => new URL(path, self.registration.scope).href;
+const shell = resolve('./index.html');
+const assets = ['./pdf-report.js', './vendor/pdf-lib.min.js'].map(resolve);
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(version).then(cache => cache.addAll([shell, ...assets])).then(() => self.skipWaiting()));
+});
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys
+    .filter(key => key.startsWith('volleyball-') && key !== version)
+    .map(key => caches.delete(key)))).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', event => {
+  const {request} = event;
+  if (request.method !== 'GET') return;
+  if (request.mode === 'navigate' && [resolve('./'), shell].includes(request.url.split('?')[0])) {
+    event.respondWith(fetch(request).catch(async () => (await caches.open(version)).match(shell)));
+  } else if (assets.includes(request.url)) {
+    event.respondWith(caches.open(version).then(cache => cache.match(request)).then(hit => hit || fetch(request)));
+  }
+});
