@@ -1,0 +1,88 @@
+.brand9 h1 .app-logo {
+  display: block;
+  width: clamp(170px, 24vw, 245px);
+  height: auto;
+}
+
+.app-logo--dark,
+:root[data-theme="dark"] .app-logo--light {
+  display: none !important;
+}
+
+:root[data-theme="dark"] .app-logo--dark {
+  display: block !important;
+}
+
+#app-intro {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  overflow: hidden;
+  background: radial-gradient(ellipse, #232f3a 0%, #111d28 72%);
+  opacity: 1;
+  transition: opacity 240ms cubic-bezier(.22,.61,.36,1);
+}
+
+#app-intro::backdrop { background: transparent; }
+#app-intro.is-closing { opacity: 0; }
+
+.intro-dismiss {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: none !important;
+}
+
+.intro-dismiss:focus { outline: none; }
+
+#app-intro.keyboard-navigation .intro-dismiss:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -5px;
+}
+
+.intro-dismiss > img,
+.intro-dismiss > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
+
+.intro-dismiss > video { opacity: 0; }
+#app-intro.has-frame video { opacity: 1; }
+
+#intro-settings {
+  margin: 16px 0 0;
+  padding: 0 0 8px;
+  border: none;
+}
+
+#intro-settings button { margin-top: 6px; }
+
+@media (prefers-reduced-motion: reduce) {
+  #app-intro { transition: none; }
+}
+
+:root[data-motion="off"] #app-intro { transition: none; }
+
+@media print {
+  #app-intro { display: none !important; }
+}
