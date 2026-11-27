@@ -1,4 +1,4 @@
-const version = 'volleyball-v11.0.5';
+const version = 'volleyball-v11.0.6';
 const resolve = path => new URL(path, self.registration.scope).href;
 const shell = resolve('./index.html');
 const assets = ['./pdf-report.js', './vendor/pdf-lib.min.js'].map(resolve);
