@@ -135,7 +135,7 @@ function setup7(nextSet=false){
   $('start7').textContent=nextSet?'Satz '+(L.sets.length+1)+' starten':'Startaufstellung übernehmen';
   $('close7').textContent=nextSet?'Später':'Schließen';
   reconcile7();
-  if(!dialog.open)dialog.showModal();$('mode7').value=L.mode;$('format7').value=L.format;$('first7').value=L.serve;$('roster7').textContent=L.ids.length<6?'Für die Startaufstellung brauchst du sechs Spieler im Spielkader.':'';$('positions7').innerHTML=Array.from({length:6},(_,i)=>'<label>P'+(i+1)+'<select data-pos7><option value="">Auswählen</option>'+L.ids.map((id,j)=>'<option value="'+id+'" '+((L.slots[i]||L.ids[i])===id?'selected':'')+'>'+esc(p[j])+'</option>').join('')+'</select></label>').join('')}
+  if(!dialog.open)dialog.showModal();$('mode7').value=L.mode;$('format7').value=L.format;$('first7').value=L.serve;$('roster7').textContent=L.ids.length<6?'Für die Startaufstellung brauchst du sechs Spieler im Spielkader.':'';$('positions7').innerHTML=Array.from({length:6},(_,i)=>'<label>P'+(i+1)+'<select data-pos7="'+i+'"><option value="">Auswählen</option>'+L.ids.map((id,j)=>'<option value="'+id+'" '+((L.slots[i]||L.ids[i])===id?'selected':'')+'>'+esc(p[j])+'</option>').join('')+'</select></label>').join('')}
 $('setupBtn7').onclick=()=>setup7();
 $('prepare106').onclick=()=>{if(matchFinished7())return;$('settings102').close();setup7()};
 $('setupRoster7').onclick=()=>$('all8').click();
